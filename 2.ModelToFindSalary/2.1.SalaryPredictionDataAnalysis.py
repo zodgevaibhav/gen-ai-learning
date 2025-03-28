@@ -87,7 +87,7 @@ model.fit(x,y)
 # DataFrame is a 2D labeled data structure with columns of potentially different types
 # It is generally the most commonly used pandas object
 # Like an SQL table or Excel spreadsheet
-salaries = model.predict(pd.DataFrame([[5]],columns=['Experience']))
+salaries = model.predict(pd.DataFrame([[15]],columns=['Experience']))
 print("Salary of 15 years of experience is:", salaries[0])
 
 # Since we have model which is trained, we can plot the BEST FIT REGRESSION LINE
@@ -97,3 +97,18 @@ plt.scatter(df['Experience'], model.predict(x), color='blue',label='Predicted Da
 plt.plot(df['Experience'], model.predict(x), color='red',label='Best Fit Line')
 plt.legend()
 plt.show()  # Uncomment to see graph
+
+
+# Understand how model is bullt (internal formula)
+# y = mx + c
+# y = dependent variable
+# x = independent variable
+# m = coefficient
+# c = intercept
+# y = mx + c
+# y = model.coef_ * x + model.intercept_
+# y = model.coef_ * 15 + model.intercept_
+# y = model.coef_[0] * 15 + model.intercept_ // Since model.coef_ is 1D array
+yearExperience = 15
+salary = model.coef_[0] * yearExperience + model.intercept_
+print("Salary of 15 years of experience is:", salary)

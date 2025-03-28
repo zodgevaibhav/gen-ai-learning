@@ -119,6 +119,9 @@ This program demonstrates how to use a simple linear regression model to predict
 
     ![Experience vs Salary Scatter Plot](./images/2.best_fit_line.png)
 
+8. **Understand how model is bulld**
+
+
 ## Notes
 - Ensure the dataset is clean and contains no missing values for accurate predictions.
 - Dependent variables must be numbers if not we need to convert them (will see later)
