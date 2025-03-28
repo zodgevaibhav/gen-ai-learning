@@ -119,7 +119,19 @@ This program demonstrates how to use a simple linear regression model to predict
 
     ![Experience vs Salary Scatter Plot](./images/2.best_fit_line.png)
 
-8. **Understand how model is bulld**
+8. **Understand how model is bullt**
+    - y = f(x) => mx + c
+    - y = B1X1 + B2X2 + B3X3 + ....
+    - y = B1 * YearsOfExperience + B0
+        - Where B0 is constant which is actually first intercept point of best fit line
+            B0 = model.intercept_  
+        - Where B1 is coefficient of model 
+            B1 = model.coef_
+    ```python
+        yearExperience = 15
+        salary = model.coef_[0] * yearExperience + model_intercept_
+    ```
+
 
 
 ## Notes
