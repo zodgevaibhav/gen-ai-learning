@@ -17,17 +17,17 @@ print("############# Columns : ")
 print(df.columns)
 
 print("############# Info : ")
-df.info()  # No need for print()
+print(df.info())  # No need for print()
 
 print("############# Describe : ")
-print(df.describe())
+print(df.describe())  # No need for print()
 
 # Ensure required columns exist
 if 'a' not in df.columns or 'b' not in df.columns:
     print("Error: Columns 'a' or 'b' not found in dataset")
     exit()
 
-# Plot scatter graph
+# Plot scatter graph or "Visualize the data"
 print("############# Plot Graph : ")
 plt.scatter(df['a'], df['b'])
 plt.xlabel('a - Number')
@@ -47,6 +47,7 @@ a_poly = poly.fit_transform(df[['a']])
 
 print("##### Train the model")
 model.fit(a_poly, df['b'])
+
 # Predict the square of 12
 print("##### Predict the square")
 a_test = poly.transform([[12]])
