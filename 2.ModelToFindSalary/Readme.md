@@ -117,9 +117,7 @@ This program demonstrates how to use a simple linear regression model to predict
         plt.show()  # Uncomment to see graph
     ```
 
-    ```markdown
     ![Experience vs Salary Scatter Plot](./images/2.best_fit_line.png)
-    ```
 
 ## Notes
 - Ensure the dataset is clean and contains no missing values for accurate predictions.
