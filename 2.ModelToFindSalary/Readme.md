@@ -105,8 +105,23 @@ This program demonstrates how to use a simple linear regression model to predict
         # It is generally the most commonly used pandas object
         # Like an SQL table or Excel spreadsheet
 
-## Notes
+7. **Visualize Best fit regerssion line**
+    - Linear Regression analysis is find the formula of closest relation between independent and dependent data.
+    - On the basis of relation (formuala) predect the dependent value on the basis given independent data
+    - To visualise the relation also called as best fit line below code is used
+    ```python
+        plt.scatter(df['Experience'], df['Salary'],label='Observed Data')
+        plt.scatter(df['Experience'], model.predict(x), color='blue',label='Predicted Data')
+        plt.plot(df['Experience'], model.predict(x), color='red',label='Best Fit Line')
+        plt.legend()
+        plt.show()  # Uncomment to see graph
+    ```
 
+    ```markdown
+    ![Experience vs Salary Scatter Plot](./images/2.best_fit_line.png)
+    ```
+
+## Notes
 - Ensure the dataset is clean and contains no missing values for accurate predictions.
 - Dependent variables must be numbers if not we need to convert them (will see later)
 - Independent variable must be always 2D 
