@@ -46,11 +46,29 @@ y_pred = model.predict(x_test)
 # Confusion matrix is a table that is often used to describe the performance of a classification model
 # It is a summary of the prediction results on a classification problem
 # It shows the ways in which your classification model is confused when it makes predictions
+# Confusion Matrix:
+#    [[359  46]
+#    [ 40 555]]
+#    True Positive: 359
+#    True Negative: 555
+#    False Positive: 46
+#    False Negative: 40
+# This means, the model correctly predicted 359 positive cases and 555 negative cases.
+# It incorrectly predicted 46 positive cases as negative and 40 negative cases as positive.
+
 confusion = confusion_matrix(y_test, y_pred)
 print("Confusion Matrix:")
 print(confusion)
 
 # Get the accuricy score
+# Accuracy Score:
+#    0.914
+# Accuracy is the ratio of correctly predicted instances to the total instances
+# It is a measure of how often the classifier is correct
+# Accuracy = (TP + TN) / (TP + TN + FP + FN)
+# where TP = True Positive, TN = True Negative, FP = False Positive, FN = False Negative
+# (359 + 555) / (359 + 555 + 46 + 40) = 0.914
+
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy Score:")
 print(accuracy)
