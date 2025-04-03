@@ -21,7 +21,12 @@ df = pd.read_csv("iris.csv")
 
 encoder = LabelEncoder()
 encoder.fit(df['species']) 
-print(encoder.classes_ )
+print(encoder.classes_ ) # Print all the classed that encoder found
+
+# Print encoder class and respective encoded number. Might needed for mapping and putting value back
+for class_label, encoded_label in enumerate(encoder.classes_):
+    print(f"Class: {encoded_label}, Encoded as: {class_label}")
+
 
 df['species'] = encoder.transform(df['species'])
 
