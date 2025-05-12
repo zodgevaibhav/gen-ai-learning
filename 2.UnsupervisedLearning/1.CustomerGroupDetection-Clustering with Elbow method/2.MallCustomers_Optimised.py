@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
 
+# 
+
+
 # Load and prepare the dataset
 df = pd.read_csv("Mall_Customers.csv")
 df = df.drop(["CustomerID", "Gender", "Age"], axis=1)

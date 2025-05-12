@@ -77,7 +77,12 @@ plt.show()
     # Misclassification is when the model assigns a data point to the wrong cluster.
     # Misclassification can occur if the number of clusters is too high.    
 
+# Why WSS ?
+    # 
+
 wss=[] # Within the sum of square
+# Why WSS ? 
+
 clusters = np.arange(1,20) # Number of clusters
 
 for cluster in clusters: # Iterate through the number of clusters
