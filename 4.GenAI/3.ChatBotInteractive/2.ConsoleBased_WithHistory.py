@@ -4,10 +4,17 @@ from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 llm = ChatOllama(
     model="llama3",
-    max_tokens=100
+    max_tokens=100,
+    temperature=0.7, # Temperature is a parameter that controls the randomness of the model's output. A higher temperature (e.g., 1.0) makes the output more random, while a lower temperature (e.g., 0.2) makes it more focused and deterministic.
+    # top_p=0.9, # Top-p sampling is another way to control the randomness of the model's output. It considers only the most probable tokens whose cumulative probability exceeds the top_p value.
+    # top_k=50, # Top-k sampling is a method that limits the model to consider only the top k most probable tokens at each step.
+    # frequency_penalty=0.5, # Frequency penalty is a parameter that reduces the likelihood of the model repeating the same token multiple times in the output.
+    # presence_penalty=0.5, # Presence penalty is a parameter that increases the likelihood of the model introducing new tokens in the output.
+    # stop=["\n"] # Stop sequence is a string that tells the model when to stop generating text. It can be used to control the length of the output.
+     n=2 # Number of responses to generate. If set to 1, the model will generate a single response. If set to a higher number, the model will generate multiple responses.
 )
 
-# Promopt : is a string that contains the prompt to be sent to the LLM
+# Prompts : is a string that contains the prompt to be sent to the LLM
 # Types of Prompts:
 # 1. System Prompt: A system prompt is a message that sets the behavior of the model. It can be used to instruct the model on how to respond to user inputs.
 # 2. User Prompt: A user prompt is a message that is sent to the model by the user. It can be used to ask questions or provide information to the model.
@@ -24,7 +31,7 @@ while True:
     response = llm.invoke(messages)
     messages.append(AIMessage(response.content)) # The AI message is added to the history so that the model can use it to generate a more relevant response to the next user input.
     
-    print("Bot : "+response.content)
+    print("Bot : "+response)
 
 print("Goodbye!")
 
