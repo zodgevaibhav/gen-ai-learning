@@ -94,7 +94,21 @@ model.save("text_gen_model2.h5")
 # Load the model from the file (useful for inference or further training)
 model = load_model("text_gen_model2.h5")
 
-def generate_text(input_text, n_words, creativity=3):
+def predict_next_word(input_text, n_best):
+    input_text = input_text.lower()
+    X = np.zeros((1, n_words, len(unique_tokens)))
+    for i, word in enumerate(input_text.split()):
+        X[0, i, unique_token_index[word]] = 1
+        
+    predictions = model.predict(X)[0]
+    print(f"predictions = {predictions}")
+    return np.argpartition(predictions, -n_best)[-n_best:]
+
+possible=predict_next_word("I will have to look in to this because I ", 5)
+for idx in possible:
+    print(unique_tokens[idx])
+
+def generate_text(input_text, n_words, creativity=100):
     word_sequence = input_text.split()
     current = 0
     for _ in range(n_words):
@@ -107,4 +121,4 @@ def generate_text(input_text, n_words, creativity=3):
         current += 1
     return " ".join(word_sequence)
 
-print(generate_text("Obama’s pick could backfire", 1))
+print(generate_text("I will have to look in to this because I ", 100))
