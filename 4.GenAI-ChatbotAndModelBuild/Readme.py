@@ -10,4 +10,5 @@
     # olama run llama3
 
 # Install python packages
-# pip3 install langchain langchain-ollama langchain-openai langchain-community
+# pip3 install langchain langchain-ollama langchain-openai langchain-community pypdf langchain-community 
+# pip install -qU langchain-chroma
