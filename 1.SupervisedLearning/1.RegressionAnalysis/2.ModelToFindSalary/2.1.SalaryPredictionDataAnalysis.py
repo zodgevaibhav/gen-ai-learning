@@ -10,14 +10,24 @@ df = pd.read_csv("salary_data.csv")
 
 # Print dataset details
 #print("############# Columns : ")
-#print(df.columns)
+print(df.columns)
 
 #print("############# Info : ")
-#df.info()  # No need for print()
+df.info()  # No need for print()
 
 #print("############# Describe : ")
-#print(df.describe())
+print(df.describe())
 
+# Mean, Median, Mode
+# Mean is the average of all values
+# Median is the middle value when all values are sorted
+# Mode is the most frequently occurring value
+# Mean, Median, Mode are used to understand the distribution of data
+# Mean, Median, Mode are used to understand the central tendency of data
+# Mean, Median, Mode are used to understand the spread of data
+print("Mean Salary: ", df['Salary'].mean())
+print("Median Salary: ", df['Salary'].median())
+print("Mode Salary: ", df['Salary'].mode()[0])
 
 # Plot scatter graph
 # Visualize the data
@@ -28,12 +38,11 @@ df = pd.read_csv("salary_data.csv")
 # Scatter plots are used to see if there is a correlation between two variables
 # Scatter plots are used to see if there is a pattern between two variables
 # Scatter plots are used to see if there is a trend between two variables
-
 plt.scatter(df['Experience'], df['Salary'])
 plt.xlabel('Experience')
 plt.ylabel('Salary')
 plt.title('Experience vs Salary')
-#plt.show()  # Uncomment to see graph
+plt.show()  # Uncomment to see graph
 
 # Find covariance (Find is there any relation between two variables)
 # Covariance is a measure of how much two variables change together
