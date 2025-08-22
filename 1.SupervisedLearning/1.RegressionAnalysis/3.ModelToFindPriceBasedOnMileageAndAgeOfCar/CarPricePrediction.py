@@ -10,5 +10,7 @@ y = df['Price']  # Target: 'Price' column
 model = LinearRegression()
 model.fit(x, y)
 
+predictions = model.predict(pd.DataFrame([[2,20000]],columns=['Age','Mileage']))
+print(predictions)
 predictions = model.predict([[2,20000]])
 print(predictions)

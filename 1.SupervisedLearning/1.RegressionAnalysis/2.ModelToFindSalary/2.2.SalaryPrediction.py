@@ -16,7 +16,11 @@ model.fit(x, y)
 
 # Predict the salary for 15 years of experience
 #salaries = model.predict([[15]])
+
+# Model training remembers feature names.
+# During prediction, always pass data in the same shape and with the same column names.
+# If names don’t match, sklearn warns you to prevent wrong predictions.
 salaries = model.predict(pd.DataFrame([[15]], columns=['Experience']))
 
 # Print the predicted salary
-print("Salary of 15 years of experience is:", salaries[0])
+print("Salary of 15 years of experience is:", salaries)

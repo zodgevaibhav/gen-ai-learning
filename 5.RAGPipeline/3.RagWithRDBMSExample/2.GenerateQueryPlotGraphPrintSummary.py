@@ -6,6 +6,7 @@ import re
 from matplotlib import pyplot as plt
 import json
 
+
 def get_db_connection():
     """Create and return a MySQL database connection."""
     try:
@@ -221,3 +222,8 @@ def main():
         elif result.get("plot_type") == "pie":
             plt.pie(result.get("data", {}).get("values", []), labels=result.get("data", {}).get("labels", []))
         plt.show()
+
+
+
+
+main()

@@ -23,8 +23,6 @@ print(df.describe())
 # Median is the middle value when all values are sorted
 # Mode is the most frequently occurring value
 # Mean, Median, Mode are used to understand the distribution of data
-# Mean, Median, Mode are used to understand the central tendency of data
-# Mean, Median, Mode are used to understand the spread of data
 print("Mean Salary: ", df['Salary'].mean())
 print("Median Salary: ", df['Salary'].median())
 print("Mode Salary: ", df['Salary'].mode()[0])
