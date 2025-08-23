@@ -6,6 +6,9 @@ from sklearn.linear_model import LinearRegression
 
 
 # Load the dataset from a CSV file
+# Data Frame is a 2D labeled data structure with columns of potentially different types
+# It is generally the most commonly used pandas object
+# Like an SQL table or Excel spreadsheet
 df = pd.read_csv("salary_data.csv")
 
 # Print dataset details

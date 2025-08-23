@@ -33,7 +33,7 @@ plt.show()
 # y = mx + c
 # y = model.coef_ * x + model.intercept_
 # y = model.coef_ * 15 + model.intercept_
-# y = model.coef_[0] * 15 + model.intercept_ // Since model.coef_ is 1D array
+# y = model.coef_[0] * 15 + model.intercept_ # Since model.coef_ is 1D array
 # yearExperience = 15
 # salary = model.coef_[0] * yearExperience + model.intercept_
 # print("Salary of 15 years of experience is:", salary)
