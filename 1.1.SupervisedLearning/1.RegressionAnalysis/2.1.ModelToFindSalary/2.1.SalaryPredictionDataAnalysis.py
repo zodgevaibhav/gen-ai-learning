@@ -83,11 +83,14 @@ y=df['Salary']
 # Linear regression is used to predict a continuous value using one or more independent variables
 # Linear regression is used to predict a continuous value using a linear equation
 # Linear regression is used to predict a continuous value using a straight line
+# Planning to use equation y = mx + c where m is slope/coeficient and c is intercept
 model = LinearRegression()
 
 # Fit the model to the data
 # Why x and y ? : x is independent variable and y is dependent variable as per convention
 # model.fit is used to train the model
+# .fit() takes your data → checks it → applies the learning algorithm → finds optimal parameters 
+# → saves them inside the model → returns the trained model.
 model.fit(x,y)
 
 # Predict the salary for 15 years of experience

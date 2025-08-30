@@ -39,21 +39,21 @@ plt.scatter(df['TV'], df['sales'])
 plt.xlabel('TV')
 plt.ylabel('sales')
 plt.title('TV vs Sales')
-#plt.show()  # Uncomment to see graph
+plt.show()  # Uncomment to see graph
 
 ## Relationship between TV and Radio seems not good relation
-plt.scatter(df['TV'], df['radio'])
+plt.scatter(df['radio'], df['sales'])
 plt.xlabel('TV')
 plt.ylabel('radio')
-plt.title('TV vs Radio')
-#plt.show()  # Uncomment to see graph
+plt.title('Radio vs Sales')
+plt.show()  # Uncomment to see graph
 
 ## Relationship between TV and News paper seems not good relation
-plt.scatter(df['TV'], df['newspaper'])
-plt.xlabel('TV')
+plt.scatter(df['newspaper'], df['sales'])
+plt.xlabel('newspaper')
 plt.ylabel('newspaper')
-plt.title('TV vs Newspaper')
-#plt.show()  # Uncomment to see graph
+plt.title('newspaper vs Sales')
+plt.show()  # Uncomment to see graph
 
 # Find the corelation coefficient
 correlation = df.corr()

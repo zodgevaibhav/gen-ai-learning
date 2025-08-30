@@ -18,6 +18,7 @@ df = pd.read_csv("Advertising.csv")
 x = df.drop(['sales'], axis=1)  # Features: all columns except 'sales'
 y = df['sales']  # Target: 'sales' column
 
+
 # Split the data into training and testing sets
 # 80% of the data will be used for training and 20% for testing
 # random_state is used to ensure that the data is split in the same way every time
