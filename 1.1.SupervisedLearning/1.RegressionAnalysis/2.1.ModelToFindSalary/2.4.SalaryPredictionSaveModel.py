@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-import pickle
+import pickle # importing pickle module to save the model
 
 # Load the dataset from a CSV file
 df = pd.read_csv("salary_data.csv")
@@ -27,4 +27,4 @@ salaries = model.predict(pd.DataFrame([[15]], columns=['Experience']))
 print("Salary of 15 years of experience is:", salaries)
 
 with open('model.pkl', 'wb') as file:
-    pickle.dump(model, file)
+    pickle.dump(model, file) # Saving the model to a file named 'model.pkl' in write binary mode
