@@ -35,6 +35,11 @@ plt.ylabel('b - Square of a')
 plt.title('Number vs Square of Number')
 #plt.show()  # Uncomment to see graph
 
+
+corr = df['a'].corr(df['b'])
+print("Correlation between a and b:", corr)
+
+print("\n------------------------------------\n\n")
 # Create and train the model
 ############# Create object of model"
 model = LinearRegression()
@@ -51,9 +56,9 @@ y = df['b']
 # Without this transformation, the model will try to fit a straight line
 # to the data, which will not work well for quadratic data
 poly = PolynomialFeatures(degree=2,include_bias=False)  # Since b = a², we use degree=2
-a_poly = poly.fit_transform(df[['a']])
+a_poly = poly.fit_transform(X)
 # print("##### Transformed features : ")
-print(a_poly)
+# print(a_poly)
 
 # print("##### Train the model")
 model.fit(a_poly, df['b'])
