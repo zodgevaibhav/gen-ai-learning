@@ -34,11 +34,11 @@ X_drop_train, X_drop_test, _, _ = train_test_split(X_drop, y, test_size=0.2, ran
 
 # Fit models on training data
 model_all = sm.OLS(y_train, X_all_train).fit()
-print("Keeping ALL dummies (multicollinearity case):")
+print("Keeping ALL dummies (multicollinearity case):\n\n")
 print(model_all.summary())
 
 model_drop = sm.OLS(y_train, X_drop_train).fit()
-print("\nDropping ONE dummy (correct way):")
+print("\n\nDropping ONE dummy (correct way):")
 print(model_drop.summary())
 
 print("Train R^2 Score (all dummies):", r2_score(y_train, model_all.predict(X_all_train)))
