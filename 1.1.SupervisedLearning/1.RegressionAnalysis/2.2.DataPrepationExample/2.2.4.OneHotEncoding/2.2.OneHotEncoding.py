@@ -1,3 +1,7 @@
+# To avoid multicollinearity we use One-Hot Encoding
+# Hot Encoding creates multiple binary columns (0/1) for each category
+# Creating binary columns make sure that regression does not assume any order or priority among categories
+# Because binary columns does not have any order or priority
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler, StandardScaler

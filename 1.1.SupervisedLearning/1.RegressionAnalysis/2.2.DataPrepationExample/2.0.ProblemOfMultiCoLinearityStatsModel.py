@@ -1,3 +1,11 @@
+# Co-Linearity Example with Dummy Variables in Regression
+# This example demonstrates the issue of multicollinearity when using dummy variables in regression analysis.
+# Dummy variables created to convert categorical variables into numerical format
+# But since those are numbers, Liner Regression will treat them as continuous variables
+# So we need to hot encode them
+# Hot Encoding creates multiple binary columns (0/1) for each category
+# Creating binary columns make sure that regression does not assume any order or priority among categories
+# Because binary columns does not have any order or priority
 import pandas as pd
 import statsmodels.api as sm
 import sys
