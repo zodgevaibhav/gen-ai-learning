@@ -12,11 +12,14 @@ label_encoder_title = LabelEncoder()
 X_label_encoded = X.copy()
 X["Title"] = label_encoder_title.fit_transform(X["Title"])
 
-for i, item in enumerate(label_encoder_title.classes_):
-    print(f"Label {i} is for {item}")
+# for i, item in enumerate(label_encoder_title.classes_):
+#     print(f"Label {i} is for {item}")
+
 
 model = LinearRegression()
 model.fit(X, y)
-y_pred = model.predict(pd.DataFrame([[2,5]],columns=["Title","Experience"]))
-print("CoPolynated Result : ")
+
+encoded_title_to_predict = label_encoder_title.transform(["Project Manager"])
+
+y_pred = model.predict(pd.DataFrame([[encoded_title_to_predict,5]],columns=["Title","Experience"]))
 print(y_pred)

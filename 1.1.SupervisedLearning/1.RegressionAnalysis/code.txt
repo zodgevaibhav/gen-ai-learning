@@ -1,0 +1,1132 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("car_price_data.csv")
+
+df.info()
+
+print(df['Mileage'].corr(df['Price']))
+print(df['Age'].corr(df['Price']))
+
+plt.scatter(df['Price'], df['Age'])
+plt.legend(['Age vs Price'])
+plt.xlabel("Price")
+plt.ylabel("Age")
+plt.show()
+
+plt.scatter(df['Price'], df['Mileage'])
+plt.legend(['Mileage vs Price'])
+plt.xlabel("Price")
+plt.ylabel("Mileage")
+plt.show()
+
+# Separate the features (independent variables) and the target (dependent variable)
+x = df.drop('Price', axis=1)  # Features: all columns except 'Price'
+y = df['Price']  # Target: 'Price' column
+
+model = LinearRegression()
+model.fit(x, y)
+
+predictions = model.predict(pd.DataFrame([[2,20000]],columns=['Age','Mileage']))
+print(predictions)import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+import pickle
+
+
+df = pd.read_csv("car_price_data.csv")
+
+#df.info()
+print(df.columns)
+
+print(df['Mileage'].corr(df['Price']))
+print(df['Age'].corr(df['Price']))
+
+# Data Scaling Example
+# Scaling means transforming data to a specific range
+# Two common techniques are Normalization and Standardization   
+# MinMaxScaler (Normalization) : Scales data to a fixed range - usually 0 to 1
+# StandardScaler (Standardization) : Scales data to have mean=0 and variance=1
+## Which means it centers the data around 0 and scales it based on standard deviation
+## Example : If mean=50 and std=10, then value 60 will be transformed to (60-50)/10 = 1
+
+scaler = StandardScaler()
+df[['Age','Mileage']] = scaler.fit_transform(df[['Age','Mileage']]) # Scaling only feature columns
+print("Scaled Data:\n", df.head(), "\n")
+
+plt.scatter( df['Price'],df['Age'])
+plt.scatter(df['Price'],df['Mileage'])
+plt.xlabel("Price")
+plt.ylabel("Age/Mileage")
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as ply
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+
+df = pd.read_csv('data.csv')
+
+df.info()
+
+corr = df['Speed'].corr(df['BrakingDistance'])
+print(corr)
+
+x = df.drop(columns=['BrakingDistance'], axis=1)
+y=df['BrakingDistance']
+
+# print(x)
+
+poly = PolynomialFeatures(degree=2)
+x_square = poly.fit_transform(x) 
+# print(x_square)
+
+model = LinearRegression()
+model.fit(x_square, y)
+
+output = model.predict(poly.fit_transform([[120]]))
+
+print("Braking distance at speed 120 is : " )
+print(poly.fit_transform([[120]]))
+
+ply.plot(df['Speed'], df['BrakingDistance'])
+ply.xlabel('Speed')
+ply.ylabel('BrakingDistance')
+ply.title('Speed vs BrakingDistance')
+ply.show()
+
+# 617*617 = 380689import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+
+# Training Data
+df = pd.read_csv('data.csv')
+
+X = df.drop(columns=['BrakingDistance'],axis = 1)
+y = df['BrakingDistance']
+
+# Linear Regression (straight line)
+lin_reg = LinearRegression()
+lin_reg.fit(X, y)
+y_pred_linear = lin_reg.predict(X)
+
+# Polynomial Regression (degree=2)
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
+poly_reg = LinearRegression()
+poly_reg.fit(X_poly, y)
+y_pred_poly = poly_reg.predict(X_poly)
+
+# Plot the prediction by Linear and Polynomial Regression
+plt.scatter(X, y, color="blue", label="Data points")
+plt.plot(X, y_pred_linear, color="red", label="Linear Regression (straight line)")
+plt.plot(X, y_pred_poly, color="green", label="Polynomial Regression (curve)")
+plt.legend()
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Linear vs Polynomial Regression")
+plt.show()
+# Co-Linearity Example with Dummy Variables in Regression
+# This example demonstrates the issue of multicollinearity when using dummy variables in regression analysis.
+# Dummy variables created to convert categorical variables into numerical format
+# But since those are numbers, Liner Regression will treat them as continuous variables
+# So we need to hot encode them
+# Hot Encoding creates multiple binary columns (0/1) for each category
+# Creating binary columns make sure that regression does not assume any order or priority among categories
+# Because binary columns does not have any order or priority
+import pandas as pd
+import statsmodels.api as sm
+import sys
+import os
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+# Load dataset
+if not os.path.exists("SalaryData.csv"):
+	sys.exit("Error: 'SalaryData.csv' not found in the current directory.")
+
+data = pd.read_csv("SalaryData.csv")
+required_columns = {"Title", "Experience", "Salary"}
+if not required_columns.issubset(data.columns):
+	sys.exit(f"Error: CSV file must contain columns: {required_columns}")
+
+y = data["Salary"]
+
+# --- Case 1: Keeping ALL dummy variables (multicollinearity problem) ---
+dummies_all = pd.get_dummies(data["Title"], drop_first=False)
+X_all = pd.concat([data[["Experience"]], dummies_all], axis=1)
+X_all = sm.add_constant(X_all)  # add intercept
+X_all = X_all.astype(float)  # Ensure all columns are float
+
+# --- Case 2: Dropping ONE dummy variable (fixes the issue) ---
+dummies_drop = pd.get_dummies(data["Title"], drop_first=True)
+X_drop = pd.concat([data[["Experience"]], dummies_drop], axis=1)
+X_drop = sm.add_constant(X_drop)
+X_drop = X_drop.astype(float)  # Ensure all columns are float
+
+# Split data into train and test sets (use same split for both cases)
+X_all_train, X_all_test, y_train, y_test = train_test_split(X_all, y, test_size=0.2, random_state=42)
+X_drop_train, X_drop_test, _, _ = train_test_split(X_drop, y, test_size=0.2, random_state=42)
+
+# Fit models on training data
+model_all = sm.OLS(y_train, X_all_train).fit()
+print("Keeping ALL dummies (multicollinearity case):\n\n")
+print(model_all.summary())
+
+model_drop = sm.OLS(y_train, X_drop_train).fit()
+print("\n\nDropping ONE dummy (correct way):")
+print(model_drop.summary())
+
+print("Train R^2 Score (all dummies):", r2_score(y_train, model_all.predict(X_all_train)))
+print("Test R^2 Score (all dummies):", r2_score(y_test, model_all.predict(X_all_test)))
+print("Train R^2 Score (drop one dummy):", r2_score(y_train, model_drop.predict(X_drop_train)))
+print("Test R^2 Score (drop one dummy):", r2_score(y_test, model_drop.predict(X_drop_test)))
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Load data
+data = pd.read_csv("CarSaleData.csv")
+print("Original Data:\n", data.head(), "\n")
+
+# Features (X) and Target (y)
+X = data.drop("Price", axis=1)
+y = data["Price"]
+
+# -----------------------------
+# 1. Label Encoding (for ordinal-like or quick encoding)
+# -----------------------------
+label_encoder = LabelEncoder()
+X_label_encoded = X.copy()
+X_label_encoded["Brand"] = label_encoder.fit_transform(X["Brand"])
+X_label_encoded["Color"] = label_encoder.fit_transform(X["Color"])
+print("Label Encoded Data:\n", X_label_encoded.head(), "\n")
+
+# -----------------------------
+# 2. One-Hot Encoding (better for categorical data)
+# -----------------------------
+column_transformer = ColumnTransformer(
+    transformers=[
+        ("onehot", OneHotEncoder(sparse_output=False, drop="first"), ["Brand", "Color"])
+    ],
+    remainder="passthrough"  # keep other columns
+)
+
+X_onehot = column_transformer.fit_transform(X)
+X_onehot = pd.DataFrame(X_onehot, columns=column_transformer.get_feature_names_out())
+print("One-Hot Encoded Data:\n", X_onehot.head(), "\n")
+
+# -----------------------------
+# 3. Normalization (Min-Max scaling: values between 0-1)
+# -----------------------------
+scaler_minmax = MinMaxScaler()
+X_normalized = scaler_minmax.fit_transform(X_onehot)
+print("Normalized Data (0-1 range):\n", pd.DataFrame(X_normalized).head(), "\n")
+
+# -----------------------------
+# 4. Standardization (mean=0, std=1)
+# -----------------------------
+scaler_standard = StandardScaler()
+X_standardized = scaler_standard.fit_transform(X_onehot)
+print("Standardized Data (mean=0, std=1):\n", pd.DataFrame(X_standardized).head(), "\n")
+
+# -----------------------------
+# 5. Linear Regression Model
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(X_standardized, y, test_size=0.3, random_state=42)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+print("Model Coefficients:", model.coef_)
+print("Model Intercept:", model.intercept_)
+print("Train R^2 Score:", model.score(X_train, y_train))
+print("Test R^2 Score:", model.score(X_test, y_test))
+
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv("SpendingData.csv")
+X = data.drop("Spendings", axis=1)
+y = data["Spendings"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+print("X_train:\n", X_train.head(), "\n")
+print("X_test:\n", X_test.head(), "\n")
+print("y_train:\n", y_train.head(), "\n")
+print("y_test:\n", y_test.head(), "\n")import pandas as pd
+from sklearn.impute import KNNImputer
+
+df = pd.read_csv('salary_data.csv')
+
+imputer = KNNImputer(n_neighbors=3)
+
+df["salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")import pandas as pd
+from sklearn.impute import SimpleImputer
+
+df = pd.read_csv('salary_data.csv')
+
+imputer = SimpleImputer(strategy="constant", fill_value=0)
+
+df["Salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")import pandas as pd
+from sklearn.impute import SimpleImputer
+
+df = pd.read_csv('salary_data.csv')
+
+imputer = SimpleImputer(strategy="most_frequent")
+
+df["Salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")import pandas as pd
+from sklearn.impute import SimpleImputer
+
+df = pd.read_csv('salary_data.csv')
+
+imputer = SimpleImputer(strategy="mean")
+
+df["Salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")import pandas as pd
+from sklearn.impute import SimpleImputer
+
+df = pd.read_csv('salary_data.csv')
+
+imputer = SimpleImputer(strategy="median")
+
+df["Salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")# Data Scaling Example
+# Scaling means transforming data to a specific range
+# Two common techniques are Normalization and Standardization   
+# MinMaxScaler (Normalization) : Scales data to a fixed range - usually 0 to 1
+# StandardScaler (Standardization) : Scales data to have mean=0 and variance=1
+## Which means it centers the data around 0 and scales it based on standard deviation
+## Example : If mean=50 and std=10, then value 60 will be transformed to (60-50)/10 = 1
+
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
+# -----------------------------
+# 1. Create sample dataset
+# -----------------------------
+df = pd.read_csv("SpendingData.csv")
+X=df.drop('Spendings', axis=1)  # Features: all columns except 'Spending Score (1-100)'
+y=df['Spendings']  # Target: 'Spending
+
+lr = LinearRegression()
+lr.fit(X, y)
+print("Without Scaling:")
+print("Coefficients:", lr.coef_)
+print("Intercept:", lr.intercept_)
+print("Predictions:", lr.predict(pd.DataFrame([[50,45611]],columns=['Age','Salary'])), "\n")
+
+# -----------------------------
+# 3. Normalization (Min-Max scaling: values between 0-1)
+# -----------------------------
+scaler_minmax = MinMaxScaler()
+X_normalized = scaler_minmax.fit_transform(X)
+
+print("Original Data:\n", pd.DataFrame(X).head(), "\n")
+print("Normalized Data (0-1 range):\n", pd.DataFrame(X_normalized).head(), "\n")
+
+
+# -----------------------------
+# 3. Linear Regression with StandardScaler
+# -----------------------------
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+lr_scaled = LinearRegression()
+lr_scaled.fit(X_scaled, y)
+
+print("With Scaling:")
+print("Coefficients:", lr_scaled.coef_)
+print("Intercept:", lr_scaled.intercept_)
+print("Predictions:", lr_scaled.predict(pd.DataFrame([[50,45611]])), "\n")
+import pandas as pd
+from sklearn.experimental import enable_iterative_imputer # Why is this needed? Because IterativeImputer is still experimental and not part of the main API yet.
+from sklearn.impute import IterativeImputer
+from sklearn.linear_model import BayesianRidge
+# BayesianRidge is light weight and efficient, making it suitable for iterative imputation tasks.
+df = pd.read_csv('salary_data.csv')
+
+imputer = IterativeImputer(estimator=BayesianRidge(), max_iter=10, random_state=0)
+
+df["salary"] = imputer.fit_transform(df[["Salary"]])
+
+print("After Mean Imputation:\n", df, "\n")import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Step 0: Create dataset
+data = pd.read_csv('SalarySpendingMLImputation.csv')
+print("Original Data:\n", data)
+
+# ==============================
+# STEP 1: TRAIN MODEL TO PREDICT SALARY
+# ==============================
+
+# 1a. Separate data into known and unknown salaries
+known_salary = data[data["Salary"].notnull()]
+unknown_salary = data[data["Salary"].isnull()]
+
+# 1b. Train a model on Age -> Salary
+X_salary = known_salary[["Age"]]
+y_salary = known_salary["Salary"]
+
+salary_model = LinearRegression()
+salary_model.fit(X_salary, y_salary)
+
+# 1c. Predict missing salaries
+predicted_salaries = salary_model.predict(unknown_salary[["Age"]])
+
+# 1d. Fill missing salaries
+data.loc[data["Salary"].isnull(), "Salary"] = predicted_salaries
+print("\nData after Salary Imputation:\n", data)
+
+# ==============================
+# STEP 2: TRAIN MODEL TO PREDICT SPENDING
+# ==============================
+
+X = data[["Age", "Salary"]]
+y = data["Spending"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+spending_model = LinearRegression()
+spending_model.fit(X_train, y_train)
+
+# Predictions
+y_pred = spending_model.predict(X_test)
+
+print("\nPredicted Spending:", y_pred)
+print("Actual Spending   :", list(y_test))
+
+# Evaluation
+mse = mean_squared_error(y_test, y_pred)
+print("Mean Squared Error:", mse)
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LinearRegression
+
+# Load data
+data = pd.read_csv("salary_data_hard_encoding.csv")
+
+X = data.drop("Salary", axis=1)
+y = data["Salary"]
+
+model = LinearRegression()
+model.fit(X, y)
+y_pred = model.predict(pd.DataFrame([[2,5]],columns=["Title","Experience"]))
+print(y_pred)
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LinearRegression
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+
+df = pd.read_csv("salary_data.csv")
+
+X = df.drop("Salary", axis=1)
+y = df["Salary"]
+
+
+column_transformer = ColumnTransformer(
+    transformers=[
+        ("onehot", OneHotEncoder(sparse_output=True, drop="first"), ["Title"])
+    ],
+    remainder="passthrough"  # keep other columns as it is
+)
+
+X = column_transformer.fit_transform(X)
+
+X = pd.DataFrame(X, columns=column_transformer.get_feature_names_out())
+print(X)
+model = LinearRegression()
+model.fit(X, y)
+# Prepare new data for prediction
+data_to_predict = pd.DataFrame([["Project Manager", 5]], columns=["Title", "Experience"])
+new_data_transformed = column_transformer.transform(data_to_predict)
+data_frame_to_predict = pd.DataFrame(new_data_transformed,columns=column_transformer.get_feature_names_out())
+
+y_pred = model.predict(data_frame_to_predict)
+print(y_pred)
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("salary_data.csv")
+
+X = df.drop("Salary", axis=1)
+y = df["Salary"]
+
+label_encoder_title = LabelEncoder()
+X_label_encoded = X.copy()
+X["Title"] = label_encoder_title.fit_transform(X["Title"])
+
+# for i, item in enumerate(label_encoder_title.classes_):
+#     print(f"Label {i} is for {item}")
+
+
+model = LinearRegression()
+model.fit(X, y)
+
+encoded_title_to_predict = label_encoder_title.transform(["Project Manager"])
+
+y_pred = model.predict(pd.DataFrame([[encoded_title_to_predict,5]],columns=["Title","Experience"]))
+print(y_pred)
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+
+data = np.array([["A"], ["B"], ["C"], ["A"]])
+
+# Sparse output
+enc_sparse = OneHotEncoder(sparse_output=True)
+X_sparse = enc_sparse.fit_transform(data)
+print(type(X_sparse)) 
+print(X_sparse)
+
+# Dense output
+enc_dense = OneHotEncoder(sparse_output=False)
+X_dense = enc_dense.fit_transform(data)
+print(type(X_dense)) 
+print(X_dense)
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+# Data
+age = np.array([1, 2, 3, 4, 5, 6]).reshape(-1, 1)
+car_value = np.array([9.0, 8.5, 7.0, 5.0, 3.5, 2.0])
+
+# Polynomial Features
+poly = PolynomialFeatures(degree=2)  # you can try degree=3 for sharper curve
+age_poly = poly.fit_transform(age)
+
+# Fit Polynomial Regression
+model = LinearRegression()
+model.fit(age_poly, car_value)
+
+
+age_range_poly = poly.transform(age)
+car_pred = model.predict( poly.transform(age))
+
+# Plotting
+plt.figure(figsize=(8,5))
+plt.plot(age, car_value, '-', label='Original Data', color='red')
+plt.plot(age, car_pred, '-', label='Polynomial Fit', color='blue')
+plt.title("Car Value Depreciation with Age")
+plt.xlabel("Age (Years)")
+plt.ylabel("Car Value (₹ Lakhs)")
+plt.grid(True)
+plt.legend()
+plt.show()
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+
+# Load the dataset safely
+try:
+    df = pd.read_csv('data.csv')
+except FileNotFoundError:
+    print("Error: data.csv not found!")
+    exit()
+
+# # Print dataset details
+# print("############# Columns : ")
+# print(df.columns)
+
+# print("############# Info : ")
+# print(df.info())  # No need for print()
+
+# print("############# Describe : ")
+# print(df.describe())  # No need for print()
+
+# Ensure required columns exist
+if 'a' not in df.columns or 'b' not in df.columns:
+    print("Error: Columns 'a' or 'b' not found in dataset")
+    exit()
+
+# Plot scatter graph or "Visualize the data"
+print("############# Plot Graph : ")
+plt.scatter(df['a'], df['b'])
+plt.xlabel('a - Number')
+plt.ylabel('b - Square of a')
+plt.title('Number vs Square of Number')
+#plt.show()  # Uncomment to see graph
+
+
+corr = df['a'].corr(df['b'])
+print("Correlation between a and b:", corr)
+
+print("\n------------------------------------\n\n")
+# Create and train the model
+############# Create object of model"
+model = LinearRegression()
+
+X = df[['a']]  # Ensure X is a 2D array
+y = df['b']
+
+# Why we need PolynomialFeatures?
+# Because our data is not linear, it's quadratic (b = a^2)
+# We need to transform our features to include polynomial terms
+# This will help the linear regression model to fit a non-linear relationship
+# For example, if a = 3, we want to include a^2 = 9 as a feature
+# So that the model can learn the relationship between a and b
+# Without this transformation, the model will try to fit a straight line
+# to the data, which will not work well for quadratic data
+poly = PolynomialFeatures(degree=2,include_bias=False)  # Since b = a², we use degree=2
+a_poly = poly.fit_transform(X)
+# print("##### Transformed features : ")
+# print(a_poly)
+
+# print("##### Train the model")
+model.fit(a_poly, df['b'])
+
+# # Predict the square of 12
+# print("##### Predict the square")
+a_test = poly.transform(pd.DataFrame([[12]],columns=['a']))
+square_predict = model.predict(a_test)
+print("Square of 12 is:", square_predict[0])
+
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import pickle
+
+# Load the model from pickle file
+# rb = read binary
+with open('model.pkl', 'rb') as file:
+    model = pickle.load(file)
+
+salaries = model.predict(pd.DataFrame([[15]], columns=['Experience']))
+
+# Print the predicted salary
+print("Salary of 15 years of experience is:", salaries)
+# numpy helps to do mathematical calculations for scientific, numeric, data-intensive
+import numpy as np
+# pandas helps to handle data in tabular form (rows and columns)
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+
+# Load the dataset from a CSV file
+# Data Frame is a 2D labeled data structure with columns of potentially different types
+# It is generally the most commonly used pandas object
+# Like an SQL table or Excel spreadsheet
+df = pd.read_csv("salary_data.csv")
+
+# Print dataset details
+#print("############# Columns : ")
+print(df.columns)
+
+#print("############# Info : ")
+df.info()  # No need for print()
+
+#print("############# Describe : ")
+print(df.describe())
+
+# Mean, Median, Mode
+# Mean is the average of all values
+# Median is the middle value when all values are sorted
+# Mode is the most frequently occurring value
+# Mean, Median, Mode are used to understand the distribution of data
+print("Mean Salary: ", df['Salary'].mean())
+print("Median Salary: ", df['Salary'].median())
+print("Mode Salary: ", df['Salary'].mode()[0])
+
+# Plot scatter graph
+# Visualize the data
+# A scatter plot is a graph that shows the relationship between two variables
+# The x-axis represents one variable, and the y-axis represents the other
+# Each point on the graph represents a single observation
+# Scatter plots are used to see if there is a relationship between two variables
+# Scatter plots are used to see if there is a correlation between two variables
+# Scatter plots are used to see if there is a pattern between two variables
+# Scatter plots are used to see if there is a trend between two variables
+plt.scatter(df['Experience'], df['Salary'])
+plt.xlabel('Experience')
+plt.ylabel('Salary')
+plt.title('Experience vs Salary')
+plt.show()  # Uncomment to see graph
+
+
+# Find correlation (Relation is strong or weak between two variables)
+# Correlation is a normalized form of covariance
+# It is a measure of how much two variables change together
+# Correlation ranges from -1 to 1
+# 1 means that the variables are perfectly correlated
+# 0 means that the variables are not correlated
+# -1 means that the variables are perfectly inversely correlated
+correlation = df['Experience'].corr(df['Salary'])
+print("Correlation: ", correlation)
+
+
+# Find covariance (Find is there any relation between two variables)
+# Covariance is a measure of how much two variables change together
+# Positive covariance means that the variables are directly proportional
+# Negative covariance means that the variables are inversely proportional
+# Zero covariance means that the variables are not related
+# Covariance can be any value
+# Covariance is not normalized,standardized,bounded,percentage,probability,correlation
+## Covariance of x and y = Σ((x - mean(x)) * (y - mean(y))) / (n-1)
+## Covariance of x = Covariance of y
+##[[cov(x,y)]] = cov(x,x) = cov(y,y)
+covariance = np.cov(df['Experience'], df['Salary'])
+print("Covariance: ", covariance)
+
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import pickle
+
+# Load the dataset from a CSV file
+df = pd.read_csv("salary_data.csv")
+
+# Separate the features (independent variables) and the target (dependent variable)
+x = df.drop('Salary', axis=1)  # Features: all columns except 'Salary'
+y = df['Salary']  # Target: 'Salary' column
+
+# Initialize the Linear Regression model
+model = LinearRegression()
+
+# Fit the model to the data
+model.fit(x, y)
+
+# Predict the salary for 15 years of experience
+#salaries = model.predict([[15]])
+
+# Model training remembers feature names.
+# During prediction, always pass data in the same shape and with the same column names.
+# If names don’t match, sklearn warns you to prevent wrong predictions.
+salaries = model.predict(pd.DataFrame([[15]], columns=['Experience']))
+
+# Print the predicted salary
+print("Salary of 15 years of experience is:", salaries)
+
+with open('model.pkl', 'wb') as file:
+    pickle.dump(model, file)
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
+
+# Load the dataset from a CSV file
+# Data Frame is a 2D labeled data structure with columns of potentially different types
+# It is generally the most commonly used pandas object
+# Like an SQL table or Excel spreadsheet
+df = pd.read_csv("salary_data.csv")
+
+# Print dataset details
+#print("############# Columns : ")
+print(df.columns)
+
+#print("############# Info : ")
+df.info()  # No need for print()
+
+#print("############# Describe : ")
+print(df.describe())
+
+# Mean, Median, Mode
+# Mean is the average of all values
+# Median is the middle value when all values are sorted
+# Mode is the most frequently occurring value
+# Mean, Median, Mode are used to understand the distribution of data
+print("Mean Salary: ", df['Salary'].mean())
+print("Median Salary: ", df['Salary'].median())
+print("Mode Salary: ", df['Salary'].mode()[0])
+
+# Plot scatter graph
+# Visualize the data
+# A scatter plot is a graph that shows the relationship between two variables
+# The x-axis represents one variable, and the y-axis represents the other
+# Each point on the graph represents a single observation
+# Scatter plots are used to see if there is a relationship between two variables
+# Scatter plots are used to see if there is a correlation between two variables
+# Scatter plots are used to see if there is a pattern between two variables
+# Scatter plots are used to see if there is a trend between two variables
+plt.scatter(df['Experience'], df['Salary'])
+plt.xlabel('Experience')
+plt.ylabel('Salary')
+plt.title('Experience vs Salary')
+plt.show()  # Uncomment to see graph
+
+# Find covariance (Find is there any relation between two variables)
+# Covariance is a measure of how much two variables change together
+# Positive covariance means that the variables are directly proportional
+# Negative covariance means that the variables are inversely proportional
+# Zero covariance means that the variables are not related
+# Covariance can be any value
+# Covariance is not normalized,standardized,bounded,percentage,probability,correlation
+## Covariance of x and y = Σ((x - mean(x)) * (y - mean(y))) / (n-1)
+## Covariance of x = Covariance of y
+##[[cov(x,y)]] = cov(x,x) = cov(y,y)
+covariance = np.cov(df['Experience'], df['Salary'])
+print("Covariance: ", covariance)
+
+# Find correlation (Relation is stron ok)
+# Correlation is a normalized form of covariance
+# It is a measure of how much two variables change together
+# Correlation ranges from -1 to 1
+# 1 means that the variables are perfectly correlated
+# 0 means that the variables are not correlated
+# -1 means that the variables are perfectly inversely correlated
+correlation = df['Experience'].corr(df['Salary'])
+print("Correlation: ", correlation)
+
+# Separate the features (independent variables) and the target (dependent variable)
+# Why drop function ? : We are using drop since independent variable should be two dimention array
+# Why x is 2D array ? : x is 2D array since it is independent variable
+# Why axis=1 ? : axis=1 means we are dropping column
+# Why axis=0 ? : axis=0 means we are dropping row
+# Why x and y ? : x is independent variable and y is dependent variable as per convention
+x = df.drop('Salary', axis=1) # We are usiong drop since independent variable should be two dimention array
+y=df['Salary']
+
+# Initialize the Linear Regression model
+# Why Linear Regression ? : Linear regression is used for regression problems
+# Regression is used to predict a continuous value
+# Linear regression is used to predict a continuous value using one or more independent variables
+# Linear regression is used to predict a continuous value using a linear equation
+# Linear regression is used to predict a continuous value using a straight line
+# Planning to use equation y = mx + c where m is slope/coeficient and c is intercept
+model = LinearRegression()
+
+# Fit the model to the data
+# Why x and y ? : x is independent variable and y is dependent variable as per convention
+# model.fit is used to train the model
+# .fit() takes your data → checks it → applies the learning algorithm → finds optimal parameters 
+# → saves them inside the model → returns the trained model.
+model.fit(x,y)
+
+# Predict the salary for 15 years of experience
+# Why model.predict ? : model.predict is used to predict the value
+# Why pd.DataFrame ? : pd.DataFrame is used to create a data frame
+# Why predict need DataFrame ? : predict need DataFrame to predict the value and it should be 2D array
+# DataFrame is a 2D labeled data structure with columns of potentially different types
+# It is generally the most commonly used pandas object
+# Like an SQL table or Excel spreadsheet
+salaries = model.predict(pd.DataFrame([[15]],columns=['Experience']))
+print("Salary of 15 years of experience is:", salaries[0])
+
+# Since we have model which is trained, we can plot the BEST FIT REGRESSION LINE
+
+plt.scatter(df['Experience'], df['Salary'],label='Observed Data')
+plt.scatter(df['Experience'], model.predict(x), color='blue',label='Predicted Data')
+plt.plot(df['Experience'], model.predict(x), color='red',label='Best Fit Line')
+plt.legend()
+plt.show()  # Uncomment to see graph
+
+
+# Understand how model is bullt (internal formula)
+# y = mx + c
+# y = dependent variable
+# x = independent variable
+# m = coefficient
+# c = intercept
+# y = mx + c
+# y = model.coef_ * x + model.intercept_
+# y = model.coef_ * 15 + model.intercept_
+# y = model.coef_[0] * 15 + model.intercept_ // Since model.coef_ is 1D array
+yearExperience = 15
+salary = model.coef_[0] * yearExperience + model.intercept_
+print("Salary of 15 years of experience is:", salary)import pandas as pd
+from sklearn.linear_model import LinearRegression
+import pickle # importing pickle module to save the model
+
+# Load the dataset from a CSV file
+df = pd.read_csv("salary_data.csv")
+
+# Separate the features (independent variables) and the target (dependent variable)
+x = df.drop('Salary', axis=1)  # Features: all columns except 'Salary'
+y = df['Salary']  # Target: 'Salary' column
+
+# Initialize the Linear Regression model
+model = LinearRegression()
+
+# Fit the model to the data
+model.fit(x, y)
+
+# Predict the salary for 15 years of experience
+#salaries = model.predict([[15]])
+
+# Model training remembers feature names.
+# During prediction, always pass data in the same shape and with the same column names.
+# If names don’t match, sklearn warns you to prevent wrong predictions.
+salaries = model.predict(pd.DataFrame([[15]], columns=['Experience']))
+
+# Print the predicted salary
+print("Salary of 15 years of experience is:", salaries)
+
+with open('model.pkl', 'wb') as file:
+    pickle.dump(model, file) # Saving the model to a file named 'model.pkl' in write binary mode
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
+# Load the dataset from a CSV file
+df = pd.read_csv("salary_data.csv")
+
+# Separate the features (independent variables) and the target (dependent variable)
+x = df.drop('Salary', axis=1) 
+y=df['Salary']
+
+# Initialize the Linear Regression model
+model = LinearRegression()
+
+# Fit the model to the data
+model.fit(x,y)
+
+# Since we have model which is trained, we can plot the BEST FIT REGRESSION LINE
+plt.scatter(df['Experience'], df['Salary'],label='Observed Data')
+plt.scatter(df['Experience'], model.predict(x), color='blue',label='Predicted Data')
+plt.plot(df['Experience'], model.predict(x), color='red',label='Best Fit Line')
+plt.legend()
+plt.show()  
+
+# Understand how model is bullt (internal formula)
+# y = mx + c
+# y = dependent variable
+# x = independent variable
+# m = coefficient
+# c = intercept
+# y = mx + c
+# y = model.coef_ * x + model.intercept_
+# y = model.coef_ * 15 + model.intercept_
+# y = model.coef_[0] * 15 + model.intercept_ # Since model.coef_ is 1D array
+# yearExperience = 15
+# salary = model.coef_[0] * yearExperience + model.intercept_
+# print("Salary of 15 years of experience is:", salary)import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Load the dataset from a CSV file
+df = pd.read_csv("Advertising.csv")
+#print(df.head())
+
+# Exploratoring Data Analysis (EDA )
+#print("############# Columns : ")
+#print(df.columns)
+
+# Read first few records
+#print("############# Head : ")
+#print(df.head())
+
+# Read last few records
+#print("############# Tail : ")
+#print(df.tail())
+
+# Get some basic information about the dataset
+#print("############# Info : ")
+#df.info()  # No need for print()
+
+# Get statistical information about the dataset
+#print("############# Describe : ")
+#print(df.describe())
+
+# Visualize the data
+# A scatter plot is a graph that shows the relationship between two variables
+# The x-axis represents one variable, and the y-axis represents the other
+# Each point on the graph represents a single observation
+
+## Relationship between TV and Sales seems not good relation
+plt.scatter(df['TV'], df['sales'])
+plt.xlabel('TV')
+plt.ylabel('sales')
+plt.title('TV vs Sales')
+plt.show()  # Uncomment to see graph
+
+## Relationship between TV and Radio seems not good relation
+plt.scatter(df['radio'], df['sales'])
+plt.xlabel('TV')
+plt.ylabel('radio')
+plt.title('Radio vs Sales')
+plt.show()  # Uncomment to see graph
+
+## Relationship between TV and News paper seems not good relation
+plt.scatter(df['newspaper'], df['sales'])
+plt.xlabel('newspaper')
+plt.ylabel('newspaper')
+plt.title('newspaper vs Sales')
+plt.show()  # Uncomment to see graph
+
+# Find the corelation coefficient
+correlation = df.corr()
+#print("Correlation between TV and Sales: ")
+#print(correlation)
+
+# Create independent variables
+x = df.drop(['sales'], axis=1)  # Features: all columns except 'sales'
+# x = x.drop('newspaper', axis=1)  #This can be also done
+y = df['sales']  # Target: 'sales' column
+
+# Build the model
+model = LinearRegression()
+model.fit(x, y) # x is independent variable and y is dependent variable   
+
+# Test the model
+sales = model.predict(pd.DataFrame([[100, 100,100]], columns=['TV', 'radio','newspaper']))
+print("Sales for 100 TV, 100 Radio, 100 Newspaper is:", sales[0])
+sales = model.predict(pd.DataFrame([[147, 23,19]], columns=['TV', 'radio','newspaper']))
+print("Sales for 147 TV, 23 Radio, 19 Newspaper is:", sales[0])
+
+## Some time some independent data might not found much relevant
+## We should drop that data to get better prediction and speed
+x = df.drop(['sales','newspaper'], axis=1)
+y = df['sales']
+model.fit(x, y)
+sales = model.predict(pd.DataFrame([[100, 100]], columns=['TV', 'radio']))
+print("Sales for 100 TV, 100 Radio is:", sales[0])
+sales = model.predict(pd.DataFrame([[147, 23]], columns=['TV', 'radio']))
+print("Sales for 147 TV, 23 Radio is:", sales[0])# Author: Vaibhav Zodge
+# Outcome: Model Evaluation
+# We should evaluate our model for the error rates
+# So what we can do is we can split our data into two parts, training and testng
+# And then on the basis of Testing Data we try to predict the sales and see the error rate
+# We can use different metrics to evaluate our model or errors
+# Mean Squared Error (MSE), Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), R2 Score (Coefficient of Determination)
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import root_mean_squared_error
+from sklearn.metrics import r2_score
+
+# Load the dataset from a CSV file
+df = pd.read_csv("Advertising.csv")
+
+x = df.drop(['sales'], axis=1)  # Features: all columns except 'sales'
+y = df['sales']  # Target: 'sales' column
+
+# Split the data into training and testing sets
+# 80% of the data will be used for training and 20% for testing
+# random_state is used to ensure that the data is split in the same way every time
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.8, random_state=42)
+
+
+# Build the model
+model = LinearRegression()
+model.fit(x_train, y_train) # Train the model using the training sets
+
+
+y_pred = model.predict(x_test)
+
+# Mean Squared Error (MSE)
+# Mean Squared Error (MSE) is the average of the squared differences between the predicted and actual values.
+# ✅ Use MSE if you want to penalize big errors more (useful when large mistakes are costly).
+# It is a measure of how close the regression line is to the actual data points.
+# The smaller the MSE, the closer the fit is to the data.
+# The MSE has the units squared of whatever is plotted on the vertical axis.
+# value of mse is 0 means model is good
+# value of mse is near to 0 means model is good
+# value of mse is near to 1 means model is good
+# value of mse is near to 0 means model is bad
+mse = mean_squared_error(y_test, y_pred)
+print("Mean Squared Error:", mse)
+
+# Mean Absolute Error (MAE)
+# Mean Absolute Error (MAE) is the average of the absolute differences between the predicted and actual values.
+## ✅ Use MAE if you want a simple interpretation (average error in actual units).
+# It is a measure of how close the regression line is to the actual data points.
+# The smaller the MAE, the closer the fit is to the data.
+# The MAE has the same units as the data being plotted on the vertical axis.
+# value of mae is 0 means model is good
+# value of mae is near to 0 means model is good
+mae = mean_absolute_error(y_test, y_pred)
+print("Mean Absolute Error:", mae)
+
+
+# Root Mean Squared Error (RMSE)
+# Root Mean Squared Error (RMSE) is the square root of the average of the squared differences between the predicted and actual values.
+# It is a measure of how close the regression line is to the actual data points.
+# The smaller the RMSE, the closer the fit is to the data.
+# The RMSE has the same units as the data being plotted on the vertical axis.
+# value of rmse is 0 means model is good
+# Lower the error, better the model
+rmse = root_mean_squared_error(y_test, y_pred)
+print("Root Mean Squared Error:", rmse)
+
+# R2 Score (Coefficient of Determination)
+# R-squared is a statistical measure of how close the data are to the fitted regression line.
+# It is also known as the coefficient of determination, or the coefficient of multiple determination for multiple regression.
+# The definition of R-squared is fairly straight-forward; it is the percentage of the response variable variation that is explained by a linear model.
+# value of r2 score is between 0 to 1
+# value of r2 score is near to 1 means model is good
+# value of r2 score is near to 0 means model is bad
+# value of r2 score is negative means model is worst
+r2 = r2_score(y_test, y_pred)
+print("R2 Score:", r2)
+
+# Test the model
+sales = model.predict(pd.DataFrame([[100, 100,100]], columns=['TV', 'radio','newspaper']))
+print("Sales for 100 TV, 100 Radio, 100 Newspaper is:", sales[0])
+# Author: Vaibhav Zodge
+# Outcome: Model Testing
+# We should test our model for the sales prediction
+# To test the model, we should split our data into two parts, training and testing
+# And then on the basis of Testing Data we try to predict the sales
+# and see the error rate
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Load the dataset from a CSV file
+df = pd.read_csv("Advertising.csv")
+
+x = df.drop(['sales'], axis=1)  # Features: all columns except 'sales'
+y = df['sales']  # Target: 'sales' column
+
+
+# Split the data into training and testing sets
+# 80% of the data will be used for training and 20% for testing
+# random_state is used to ensure that the data is split in the same way every time
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.8, random_state=42)
+
+
+# Build the model
+model = LinearRegression()
+model.fit(x_train, y_train) # Train the model using the training sets
+
+# Test the model
+sales = model.predict(pd.DataFrame([[100, 100,100]], columns=['TV', 'radio','newspaper']))
+print("Sales for 100 TV, 100 Radio, 100 Newspaper is:", sales[0])
