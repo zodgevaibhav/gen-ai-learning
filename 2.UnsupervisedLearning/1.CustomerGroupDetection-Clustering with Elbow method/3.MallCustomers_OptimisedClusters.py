@@ -31,19 +31,11 @@ df.rename(columns={"Annual Income (k$)": "Income", "Spending Score (1-100)": "Sp
 wss = []  # Within-Cluster Sum of Squares
 clusters_range = range(1, 11)
 
-for k in clusters_range:
-    model = KMeans(n_clusters=k, random_state=123)
-    model.fit(df)
+for k in clusters_range: # for each k value
+    model = KMeans(n_clusters=k, random_state=123) # create KMeans model    
+    model.fit(df) 
     wss.append(model.inertia_)
 
-# Plot Elbow Curve
-plt.figure(figsize=(8, 5))
-plt.plot(clusters_range, wss, marker='o')
-plt.title('Elbow Method For Optimal k')
-plt.xlabel('Number of Clusters (k)')
-plt.ylabel('WSS (Inertia)')
-plt.grid(True)
-plt.show()
 
 # Apply KMeans with chosen cluster count (e.g., 5)
 kmeans_final = KMeans(n_clusters=5, random_state=123)
