@@ -27,14 +27,21 @@ print(centroids)
 # -------------------------------
 # Assign descriptive labels
 # -------------------------------
+# You can adjust these labels after checking centroid values
 
-cluster_labels = {
-    0: "Budget-Conscious",      # Low income, low spending
-    1: "Impulsive Spenders",    # Low income, high spending
-    2: "Savers",                # High income, low spending
-    3: "Premium Spenders",      # High income, high spending
-    4: "Average Customers"      # Middle group
-}
+cluster_labels = {}
+for cid, (income, spending) in enumerate(centroids):
+    if income < 40 and spending < 40:
+        cluster_labels[cid] = "Budget-Conscious"
+    elif income < 40 and spending >= 60:
+        cluster_labels[cid] = "Impulsive Spenders"
+    elif income >= 70 and spending < 40:
+        cluster_labels[cid] = "Savers"
+    elif income >= 70 and spending >= 60:
+        cluster_labels[cid] = "Premium Spenders"
+    else:
+        cluster_labels[cid] = "Average Customers"
+
 
 df['ClusterLabel'] = df['Cluster'].map(cluster_labels)
 
