@@ -9,7 +9,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 
 # -----------------------------
 # 1. Create sample dataset
@@ -43,6 +43,16 @@ X_scaled = scaler.fit_transform(X)
 
 lr_scaled = LinearRegression()
 lr_scaled.fit(X_scaled, y)
+
+
+# -----------------------------
+# 4. Linear Regression with RobustScaler
+#    Handles outliers better than StandardScaler
+#    Uses median and IQR for scaling, IQR meaning Interquartile Range (Q3 - Q1)
+
+scaler = RobustScaler()
+X_scaled = scaler.fit_transform(X)
+
 
 print("With Scaling:")
 print("Coefficients:", lr_scaled.coef_)

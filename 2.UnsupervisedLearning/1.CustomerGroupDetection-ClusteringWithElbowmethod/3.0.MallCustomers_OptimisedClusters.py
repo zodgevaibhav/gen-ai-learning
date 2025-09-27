@@ -50,3 +50,6 @@ plt.ylabel('Spending Score (1-100)')
 plt.legend(title='Cluster')
 plt.grid(True)
 plt.show()
+
+output = model.predict([[60, 50], [60, 50]])
+print(output)

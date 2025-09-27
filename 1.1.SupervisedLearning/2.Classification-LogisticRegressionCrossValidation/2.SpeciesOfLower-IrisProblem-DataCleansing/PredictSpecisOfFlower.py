@@ -4,11 +4,14 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, f1_score, classification_report
+
+matplotlib.use('Agg')
 
 ################### Data Load and Primary Analysis##################
 
@@ -154,4 +157,9 @@ plt.xlabel('Sepal Length')
 plt.ylabel('Sepal Width')
 plt.title('Iris Species Classification')
 plt.legend()
-plt.show()
+#plt.show()
+
+output = model.predict(pd.DataFrame([[5.1, 3.5, 1.4, 0.2]],columns=['sepal_length','sepal_width','petal_length','petal_width'])) # Predict the species for a new flower with sepal length of 5.1, sepal width of 3.5, petal length of 1.4 and petal width of 0.2
+
+output = encoder.inverse_transform(output) # Convert the numeric prediction back to the original species name
+print("Predicted Species for flower with sepal length of 5.1, sepal width of 3.5, petal length of 1.4 and petal width of 0.2 : ", output)

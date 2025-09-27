@@ -2,9 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.linear_model import LogisticRegressionCV
+from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import matplotlib
+
 
 df = pd.read_csv("hearing_test.csv")
 
@@ -24,6 +26,25 @@ df = pd.read_csv("hearing_test.csv")
 print("############# Correlation : ")
 print(df.corr())
 
+# Split by category
+positive = df[df["test_result"] == 1]
+negative = df[df["test_result"] == 0]
+
+# Scatter plot
+plt.figure(figsize=(7,5))
+plt.scatter(positive["age"], positive["physical_score"], 
+            color="green", label="Test Result = 1", marker=".", s=80)
+plt.scatter(negative["age"], negative["physical_score"], 
+            color="red", label="Test Result = 0", marker=".", s=80)
+
+plt.xlabel("Age")
+plt.ylabel("Physical Score")
+plt.title("Patient Data: Age vs Physical Score")
+plt.legend()
+plt.grid(True, linestyle="--", alpha=0.6)
+plt.show()
+
+
 x = df.drop(columns=['test_result'], axis=1)
 y = df['test_result']
 
@@ -33,9 +54,13 @@ y = df['test_result']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=23123123)
 
 # Build the model
-model = LogisticRegressionCV()
+model = LogisticRegression()
 
 model.fit(x_train, y_train)  # Train the model using the training sets
+
+output = model.predict(pd.DataFrame([[69,25]], columns=["age","physical_score"]))  # Predict for a new data point
+
+print("Predicted Output for a 69 years old person with physical score of 25: ", output)
 
 # Test the model
 # Predict the test set results
