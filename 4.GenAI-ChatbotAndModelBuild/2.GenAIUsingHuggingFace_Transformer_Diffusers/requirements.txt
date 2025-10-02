@@ -1,0 +1,6 @@
+genaibook
+torch
+torchvision
+matplotlib
+datasets
+torchaudio
