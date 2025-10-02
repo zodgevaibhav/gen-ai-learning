@@ -1,3 +1,8 @@
+# This code creates a deep learning model for text generation using news data. 
+# It processes text data and trains an LSTM neural network to predict 
+# the next word in a sequence.
+    
+
 import random  # Import random module for generating random numbers
 import pickle  # Import pickle module for object serialization
 import numpy as np  # Import numpy for numerical operations
