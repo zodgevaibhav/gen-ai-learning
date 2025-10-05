@@ -18,11 +18,14 @@ human_message = HumanMessage("Tell me a joke")
 response = llm.invoke([context, human_message])
 print(response.content)
 
+ai_message = AIMessage(response)
+
+
 print("--------------------------------------------------")
 
 context = SystemMessage(
     content="You are a Python developer."
 )
 human_message = HumanMessage("Tell me a joke")
-response = llm.invoke([context, human_message])
+response = llm.invoke([context, human_message, ai_message])
 print(response.content)

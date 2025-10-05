@@ -31,7 +31,7 @@ while True:
     response = llm.invoke(messages)
     messages.append(AIMessage(response.content)) # The AI message is added to the history so that the model can use it to generate a more relevant response to the next user input.
     
-    print("Bot : "+response)
+    print("Bot : "+response.content)
 
 print("Goodbye!")
 
