@@ -1,0 +1,47 @@
+# Database
+mysql-connector-python
+
+# LangChain and related
+langchain
+langchain-ollama
+langchain-openai
+langchain-community
+langchain-chroma
+
+# Hugging Face Transformers / Diffusers
+transformers
+diffusers
+torch
+torchvision
+datasets
+
+# Data Science / ML
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+scikit-learn
+statsmodels
+nltk
+tensorflow
+
+# Visualization / Animation
+manim
+
+# Web / API
+streamlit
+flask
+flask-cors
+openai
+
+# Audio / Speech
+sounddevice
+torchaudio
+
+# Images
+Pillow
+
+# Optional (if using GPU support in PyTorch, pick the right CUDA version)
+# torch --index-url https://download.pytorch.org/whl/cu121
+
