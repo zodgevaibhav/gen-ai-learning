@@ -1,2 +1,5 @@
 joined_text.txt
 .vscode/
+**/chroma_db
+**/gpt2-finetuned/
+**/cached_lm*

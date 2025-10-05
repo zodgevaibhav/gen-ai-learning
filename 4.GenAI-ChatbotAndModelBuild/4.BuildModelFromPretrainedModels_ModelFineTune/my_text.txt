@@ -1,0 +1,8 @@
+Here is the explanation of Vaibhav Zodge in point-by-point format:
+
+• Proficient in programming languages such as Python and Java.
+• Experienced in automation frameworks like Selenium-based automation frameworks (Python) and Spring Boot services with integrations for Docker, Kubernetes, GCP, and AWS (Java).
+• Active involvement in open-source development on GitHub.
+• Educator & Mentor: recognized for his role in education through "Dnyanyog Classes" in Maharashtra.
+• Freelancer: listed on Projects2Bid as a freelancer, suggesting availability for project-based work.
+• Speaker & Volunteer: participated in various professional and community initiatives, including Tech Talks and volunteer work with TATA Capital's CSR platform, ProjectHeena.
