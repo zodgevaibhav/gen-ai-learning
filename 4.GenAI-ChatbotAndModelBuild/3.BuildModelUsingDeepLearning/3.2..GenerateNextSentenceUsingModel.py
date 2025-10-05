@@ -14,15 +14,8 @@ model = load_model("text_gen_model2.h5")
 # -----------------------------
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
-
 # -----------------------------
-# 3. Load corpus (for reference, optional)
-# -----------------------------
-# df = pd.read_csv("corpus.csv")
-# corpus = df["text"].tolist()
-
-# -----------------------------
-# 4. Function to predict next word
+# 3. Function to predict next word
 # -----------------------------
 def predict_next_word(model, tokenizer, text_sequence, max_sequence_len=10):
     """Predict the next word for a given text sequence"""
@@ -43,7 +36,7 @@ def predict_next_word(model, tokenizer, text_sequence, max_sequence_len=10):
     return None
 
 # -----------------------------
-# 5. Try predictions
+# 4. Try predictions
 # -----------------------------
 input_text = "पित्तघ्न"
 next_word = predict_next_word(model, tokenizer, input_text)

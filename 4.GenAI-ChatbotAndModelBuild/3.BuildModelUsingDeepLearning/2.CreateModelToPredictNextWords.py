@@ -86,15 +86,15 @@ model.add(Activation("softmax"))
 
 # Compile the model with categorical crossentropy loss and RMSprop optimizer
 # Categorical crossentropy is used because the output is a probability distribution
-# optimizer = RMSprop(learning_rate=0.01)
-# model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+optimizer = RMSprop(learning_rate=0.01)
+model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
 # Train the model on the input-output pairs
 # The model learns to predict the next word given a sequence of 'n_words'
-# history = model.fit(X, y, batch_size=128, epochs=10, shuffle=True).history
+history = model.fit(X, y, batch_size=128, epochs=10, shuffle=True).history
 
 # Save the trained model to a file for future use
-# model.save("text_gen_model2.h5")
+model.save("text_gen_model2.h5")
 
 # Load the model from the file (useful for inference or further training)
 model = load_model("text_gen_model2.h5")
