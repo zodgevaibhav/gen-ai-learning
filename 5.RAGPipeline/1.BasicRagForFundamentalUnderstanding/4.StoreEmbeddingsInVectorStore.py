@@ -1,12 +1,11 @@
-from langchain_ollama import ChatOllama
-from langchain_community.document_loaders import PyPDFLoader, WebBaseLoader, PyPDFDirectoryLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_ollama import OllamaEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
 
 
 
-def load_pdf_return_documents(file_path="./VaibhavZodge.pdf"):
+def load_pdf_return_documents(file_path="../VaibhavZodge.pdf"):
     """Load a PDF file and return its content."""
     # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html
     docs = []
@@ -30,7 +29,7 @@ vector_store = InMemoryVectorStore(embedding=obj_embeddings)
 
 vector_store.add_documents(load_pdf_return_documents())
 
-similar_vectors = vector_store.search("Does vaibhav have github ?", search_type="similarity", k=1)
+similar_vectors = vector_store.search("Does vaibhav have SCM/GitLab/Source Repository ?", search_type="similarity", k=1)
 
 print("\n\n********* Similar Vectors : "+str(similar_vectors))
 

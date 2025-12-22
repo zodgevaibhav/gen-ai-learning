@@ -3,14 +3,14 @@ from langchain_community.document_loaders import PyPDFLoader, WebBaseLoader, PyP
 from langchain_core.documents import Document
 
 
-def load_pdf(file_path="./VaibhavZodge.pdf"):
+def load_pdf(file_path="../VaibhavZodge.pdf"):
     """Load a PDF file and return its content."""
     # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html
     loader = PyPDFLoader(file_path)
     documents = loader.load() # It returns a list of Document objects, each containing the text content of the PDF page.
     return documents
 
-def load_pdf_return_documents(file_path="./VaibhavZodge.pdf"):
+def load_pdf_return_documents(file_path="../VaibhavZodge.pdf"):
     """Load a PDF file and return its content."""
     # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html
     loader = PyPDFLoader(file_path)
@@ -36,11 +36,11 @@ def load_pdf_directory(directory_path="./"):
     documents = loader.load()
     return documents
 
-documents = load_pdf_return_documents()
-print("\n\n********* Documents : "+str(documents))
+# documents = load_pdf_return_documents()
+# print("\n\n********* Documents : "+str(documents))
 
-# documents = load_from_web()
-# print("\n\n ********* Web : "+str(documents))
+documents = load_from_web()
+print("\n\n ********* Web : "+str(documents))
 
 
 

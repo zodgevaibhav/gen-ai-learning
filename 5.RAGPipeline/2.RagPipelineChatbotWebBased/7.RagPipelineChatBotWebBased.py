@@ -8,11 +8,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
 
 
-
-
-
-
 import tempfile
+
+vector_store = Chroma(embedding_function=OllamaEmbeddings(model="llama3"), collection_name="vaibhav_zodge", persist_directory="./chroma_db")
 
 def create_embeddings_from_pdf(pdf_file):
     """Load a PDF file and return its content."""
@@ -39,7 +37,6 @@ def create_embeddings_from_pdf(pdf_file):
           # Overlapping helps to maintain context between chunks.
     docs = splitter.split_documents(docs)
 
-    vector_store = Chroma(embedding_function=OllamaEmbeddings(model="llama3"), collection_name="vaibhav_zodge", persist_directory="./chroma_db")
     vector_store.add_documents(docs)
     
     # Store vector store to session state for later use
@@ -47,12 +44,15 @@ def create_embeddings_from_pdf(pdf_file):
         st.session_state.vector_store = vector_store
     
 
-def rag_pipeline(context, question="Who is Vaibhav Zodge?"):    
+def rag_pipeline(context, question="Who is Vaibhav Zodge?", history=[]):   
+    history_text = history.join(" ")
+
     template = """
     You are a helpful assistant. Answer the question based on the context provided.
     Answer with not more than 100 words.
     Don't talk about context, just answer the question.
     If you don't know the answer, say "I don't know".
+    History: {history_text}
     Question: {question}
     Context: {context}
     Answer:
@@ -72,7 +72,8 @@ def rag_pipeline(context, question="Who is Vaibhav Zodge?"):
 
 st.title("RAG Pipeline Chatbot")
 st.header("Upload PDF and Chat with it")
-
+if "history" not in st.session_state:
+    st.session_state.history = []
 with st.sidebar:
     st.subheader("Upload PDF")
     uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
@@ -88,13 +89,16 @@ if "vector_store" in st.session_state:
 question = st.chat_input("Ask a question about the PDF content:")
 if question:
     # Search for similar vectors in the vector store
-    context = st.session_state.vector_store.search(question, search_type="similarity", k=5)
+    context=""
+    if "vector_store" in st.session_state and st.session_state.vector_store is not None:
+        context = vector_store.search(question, search_type="similarity", k=5)
     
     # Generate response using RAG pipeline
-    response = rag_pipeline(context, question)
+    response = rag_pipeline(context, question,st.session_state.history)
     
     # Display the response
     st.write(response)
+    st.session_state.history.append({"user": question, "assistant": response})
 
 
 

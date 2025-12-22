@@ -10,7 +10,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 
-def load_pdf_return_documents(file_path="./VaibhavZodge.pdf"):
+def load_pdf_return_documents(file_path="../VaibhavZodge.pdf"):
     """Load a PDF file and return its content."""
     # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.pdf.PyPDFLoader.html
     docs = []

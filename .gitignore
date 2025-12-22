@@ -1,5 +1,40 @@
+# project files
 joined_text.txt
+
+# editor/IDE
 .vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# databases, caches, model dirs
 **/chroma_db
 **/gpt2-finetuned/
 **/cached_lm*
+
+# node
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java / compiled
+*.class
+target/
+**/target/
+build/
+out/
+
+# Python
+__pycache__/
+*.py[cod]
+env/
+venv/
+.env
+
+# OS and misc
+.DS_Store
+*.log

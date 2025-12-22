@@ -21,7 +21,8 @@ def load_pdf_return_documents(file_path="../VaibhavZodge.pdf"):
 
     return docs
 
-def rag_pipeline(context, question="Who is Vaibhav Zodge?"):    
+def rag_pipeline(context, question="Who is Vaibhav Zodge?"):   
+     
     template = """
     You are a helpful assistant. Answer the question based on the context provided.
     Answer with not more than 100 words.
@@ -42,28 +43,30 @@ def rag_pipeline(context, question="Who is Vaibhav Zodge?"):
     return response.content
 
 
-# Create an instance of the OllamaEmbeddings class
+# ## Program Starts
+
+# # Create an instance of the OllamaEmbeddings class
 obj_embeddings = OllamaEmbeddings(model = "llama3")
 
-# Create an instance of the Chroma class to store the embeddings
-# When we give embedding object to the vector store, it initialize with the given embedding function.
-    # Ref: https://python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html#langchain_chroma.vectorstores.Chroma
+# # Create an instance of the Chroma class to store the embeddings
+# # When we give embedding object to the vector store, it initialize with the given embedding function.
+#     # Ref: https://python.langchain.com/api_reference/chroma/vectorstores/langchain_chroma.vectorstores.Chroma.html#langchain_chroma.vectorstores.Chroma
 vector_store = Chroma(embedding_function=obj_embeddings, collection_name="vaibhav_zodge", persist_directory="./chroma_db")
 
 # Load the PDF documents and split them into chunks
 # The text splitter is used to split the documents into smaller chunks for better embedding
 # and retrieval performance.
-splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+# splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
 
-# Load the PDF documents and split them into chunks
-docs = splitter.split_documents(load_pdf_return_documents())
+# # Load the PDF documents and split them into chunks
+# docs = splitter.split_documents(load_pdf_return_documents())
 
-# Add the documents to the vector store
+# # Add the documents to the vector store
 
-vector_store.add_documents(docs)
+# vector_store.add_documents(docs)
 
 # Search for similar vectors in the vector store
-question = "Explain Vaibhav Zodge in point by point format"
+question = "Give me some information about Vaibhav Zodge"
 context = vector_store.search(question, search_type="similarity", k=5)
 
 response = rag_pipeline(context, question)
