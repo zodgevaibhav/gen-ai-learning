@@ -40,5 +40,11 @@ Below is the project structure with links and brief descriptions.
 - [Store Embeddings in Chroma Store](./5.RAG%20Pipeline/5.StoreEmbeddingsInChromaStore.py): Use Chroma for embeddings.
 - [RAG Pipeline Chatbot](./5.RAG%20Pipeline/6.RagPipelineChatBot.py): Chatbot using RAG pipeline.
 
+### 6. [Agentic AI (Codegen / LangGraph)](./6.AgenticAI)
+- [SDLC Automation Basic](./6.AgenticAI/1.SDLCAutomation/agent_team.py): SDLC Automation Basic
+- [SDLC Automation Agentic AI : Sequential](./6.AgenticAI/2.SDLCAutomation_LangGraph_Sequential/main.py): SDLC Automation Agentic AI : Sequential
+- [SDLC Automation Agentic AI : Parallel](./6.AgenticAI/3.SDLCAutomation_LangGraph_Parallel/main.py): SDLC Automation Agentic AI : Parallel
+
+
 ### [Docs & References](./docs/References.md)
 - Reference materials and documentation.
