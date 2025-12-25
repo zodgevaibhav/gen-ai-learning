@@ -1,0 +1,17 @@
+flowchart TD
+    A[User Registration] -->|Submit Registration| B[Validate Input]
+    B -->|Valid| C[Check Email Exists]
+    C -->|Exists| D[Return Conflict]
+    C -->|Does Not Exist| E[Save User]
+    E --> F[Generate Verification Token]
+    F --> G[Send Verification Email]
+    G --> H[Return Success]
+
+    A2[User Login] -->|Submit Login| B2[Validate Credentials]
+    B2 -->|Valid| C2[Generate JWT Token]
+    C2 --> D2[Return Token]
+    B2 -->|Invalid| E2[Return Unauthorized]
+
+    A3[Profile Update] -->|Submit Update| B3[Validate Input]
+    B3 -->|Valid| C3[Update User]
+    C3 --> D3[Return Success]

@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional, List
+from typing import TypedDict, Optional, List, Annotated
 
 class CodegenState(TypedDict):
     raw_requirement: str
