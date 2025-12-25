@@ -17,8 +17,9 @@ Provide the architecture document in markdown format with embedded PlantUML diag
 """
 
 def architect_node(state: CodegenState) -> CodegenState:
+    print("\n Architecting System Architecture...")
     architecture = call_llm(ARCH_PROMPT, state["refined_requirement"])
-
+    
     os.makedirs("architecture", exist_ok=True)
     with open("architecture/architecture.md", "w") as f:
         f.write(architecture)

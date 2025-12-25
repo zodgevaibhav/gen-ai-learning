@@ -9,7 +9,7 @@ Scenario: CRUD operations
 """
 
 def orchestrate():
-    clean_workspace()
+    #clean_workspace()
 
     run_dir = os.path.join(
         "runs",
@@ -34,9 +34,10 @@ def orchestrate():
     "generated_files": [],
     "backend_build_ok": None,
     "frontend_build_ok": None,
-    "error": None
+    "error": None,
+    "run_dir": run_dir
     }
 
     graph.invoke(initial_state)
 
-    print("\n✅ FULL PROJECT GENERATED")
+    print("\n FULL PROJECT GENERATED")

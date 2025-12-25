@@ -6,7 +6,7 @@ def frontend_compiler_node(state: CodegenState) -> CodegenState:
     if not os.path.exists("frontend"):
         # frontend optional → don’t fail whole pipeline
         state["frontend_build_ok"] = True
-        print("⚛️ Frontend skipped (no frontend directory)")
+        print("Frontend skipped (no frontend directory)")
         return state
 
     success, output = run_command(
@@ -25,5 +25,5 @@ def frontend_compiler_node(state: CodegenState) -> CodegenState:
     if not success:
         state["error"] = f"Frontend build failed:\n{output}"
 
-    print("⚛️ Frontend build:", "✅ SUCCESS" if success else "❌ FAILED")
+    print("Frontend build:", "✅ SUCCESS" if success else "❌ FAILED")
     return state

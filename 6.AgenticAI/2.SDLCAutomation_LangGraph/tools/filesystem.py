@@ -19,7 +19,6 @@ def materialize_files(output: str) -> List[str]:
 
         dir_path = os.path.dirname(path)
 
-        # ✅ FIX: create dir only if path is non-empty
         if dir_path:
             os.makedirs(dir_path, exist_ok=True)
 

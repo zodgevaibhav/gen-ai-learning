@@ -9,6 +9,6 @@ def call_llm(system_prompt: str, user_input: str) -> str:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
         ],
-        temperature=0.1
+        temperature=0.1 # Low temperature for more deterministic responses meaning less randomness
     )
     return response.choices[0].message.content

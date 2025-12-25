@@ -9,3 +9,4 @@ class CodegenState(TypedDict):
     backend_build_ok: Optional[bool]
     frontend_build_ok: Optional[bool]
     error: Optional[str]
+    run_dir: Optional[str]

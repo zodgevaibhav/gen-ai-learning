@@ -8,7 +8,8 @@ from agents.frontend_compiler import frontend_compiler_node
 from agents.requirement_refiner import requirement_refiner_node
 
 def build_codegen_graph():
-    graph = StateGraph(CodegenState)
+    graph = StateGraph(CodegenState) # Create a StateGraph instance with CodegenState as the state type
+
     graph.add_node("requirement_refiner", requirement_refiner_node)
     graph.add_node("architect", architect_node) # Add node helps to register the node in the graph, mapping the name to the function. 
                                                 # Name is needed because edges refer to nodes by name.
@@ -16,13 +17,13 @@ def build_codegen_graph():
     graph.add_node("developer", developer_node)
     graph.add_node("backend_compile", backend_compiler_node)
     graph.add_node("frontend_compile", frontend_compiler_node)
-
+    #graph.set_entry_point("backend_compile")
     graph.set_entry_point("requirement_refiner")
-
     graph.add_edge("requirement_refiner", "architect")
+    graph.add_edge("architect", END) 
     graph.add_edge("architect", "developer")
     graph.add_edge("developer", "backend_compile")
     graph.add_edge("backend_compile", "frontend_compile")
     graph.add_edge("frontend_compile", END)
-
+    print("\n Codegen Graph Built Successfully")
     return graph.compile()
