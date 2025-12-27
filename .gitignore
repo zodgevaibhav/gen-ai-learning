@@ -34,6 +34,7 @@ __pycache__/
 env/
 venv/
 .env
+runs/
 
 # OS and misc
 .DS_Store

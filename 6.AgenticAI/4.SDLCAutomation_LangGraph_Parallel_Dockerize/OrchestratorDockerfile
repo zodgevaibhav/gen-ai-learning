@@ -1,0 +1,36 @@
+FROM python:3.11-slim
+
+# System deps
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y docker.io
+
+# Workdir
+WORKDIR /app
+
+# Install Python deps first (cache-friendly)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY agents ./agents
+COPY graph ./graph
+COPY state ./state
+COPY tools ./tools
+COPY orchestrator.py .
+COPY main.py .
+COPY README.md .
+
+# Runtime folders
+RUN mkdir -p /app/runs
+
+# Environment
+ENV PYTHONUNBUFFERED=1
+ENV RUNS_DIR=/app/runs
+
+# Entry point
+CMD ["python", "main.py"]

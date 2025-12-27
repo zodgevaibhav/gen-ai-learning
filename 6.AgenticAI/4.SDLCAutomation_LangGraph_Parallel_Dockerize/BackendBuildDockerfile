@@ -1,0 +1,12 @@
+FROM eclipse-temurin:17-jdk
+
+# Install tools
+RUN apt-get update && apt-get install -y \
+    git \
+    maven \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Default command (overridden by orchestrator)
+CMD ["bash"]
