@@ -39,3 +39,5 @@ runs/
 # OS and misc
 .DS_Store
 *.log
+*.joblib
+*.csv

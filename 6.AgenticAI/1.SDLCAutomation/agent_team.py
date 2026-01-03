@@ -47,7 +47,7 @@ def clean_workspace():
         shutil.rmtree(BASE)
     os.makedirs(BASE)
 
-def run_agent(prompt, input_text):
+def llm_invoke(prompt, input_text):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -85,7 +85,7 @@ def main(requirement):
         f.write(requirement)
 
     # Architecture
-    arch = run_agent(
+    arch = llm_invoke(
         """You are a Software Architect.
         Produce architecture.md and PlantUML.""",
         requirement
@@ -95,7 +95,7 @@ def main(requirement):
         f.write(arch)
 
     # Developer
-    dev_output = run_agent(DEV_PROMPT, arch)
+    dev_output = llm_invoke(DEV_PROMPT, arch)
     materialize_files(dev_output)
 
     print("\n✅ FULL PROJECT GENERATED")
